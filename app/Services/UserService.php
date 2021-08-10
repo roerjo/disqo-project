@@ -7,6 +7,12 @@ use Exception;
 
 class UserService extends ParentService
 {
+    /**
+     * Create a new user and return and API token.
+     *
+     * @param  array  $userAttributes
+     * @return self
+     */
     public function registerUser(array $userAttributes): self
     {
         try {
@@ -24,7 +30,7 @@ class UserService extends ParentService
         }
 
         // Trigger UserRegistered event?
-        
+
         return $this;
     }
 }
