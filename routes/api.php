@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\API\V1;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', V1\RegisterController::class);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::group(['prefix' => '/users/{user}'], function () {
+        Route::get('/notes', [V1\NoteController::class, 'index']);
+        Route::post('/notes', [V1\NoteController::class, 'store']);
+        Route::get('/notes/{note}', [V1\NoteController::class, 'show']);
+        Route::put('/notes/{note}', [V1\NoteController::class, 'update']);
+        Route::delete('/notes/{note}', [V1\NoteController::class, 'destroy']);
+    });
 });
