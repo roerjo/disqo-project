@@ -29,6 +29,6 @@ class RegisterController extends Controller
             );
         }
 
-        return response()->json($result->getSuccess());
+        return response()->json($result->getSuccess(), 201);
     }
 }
