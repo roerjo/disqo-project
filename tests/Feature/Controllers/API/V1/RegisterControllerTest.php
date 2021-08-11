@@ -3,12 +3,13 @@
 namespace Tests\Feature\Controllers\API\V1;
 
 use App\Services\UserService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RegisterControllerTest extends TestCase
 {
-    use WithFaker;
+    use WithFaker, RefreshDatabase;
 
     /**
      * @test

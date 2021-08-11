@@ -24,7 +24,7 @@ class NoteFactory extends Factory
     {
         return [
             'user_id' => User::factory(), 
-            'title' => $this->faker->words(),
+            'title' => $this->faker->words(3, true),
             'note' => $this->faker->paragraph(),
         ];
     }

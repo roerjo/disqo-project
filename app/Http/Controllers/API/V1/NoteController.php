@@ -4,19 +4,38 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Note;
+use App\Models\User;
+use App\Services\NoteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
+    private NoteService $noteService;
+
+    public function __construct(NoteService $noteService)
+    {
+       $this->noteService = $noteService; 
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(User $user): JsonResponse
     {
-        //
+        $result = $this->noteService->getNotes($user);
+
+        if ($result->hasError()) {
+            return response()->json(
+                ['error' => $result->getError()],
+                400
+            );
+        }
+
+        return response()->json($result->getSuccess(), 200);
     }
 
     /**
