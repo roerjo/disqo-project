@@ -24,7 +24,7 @@ class NoteControllerTest extends TestCase
             ->has(Note::factory()->count(1), 'notes')    
             ->create();
 
-        Sanctum::actingAs($this->user, ['*']);
+        Sanctum::actingAs($this->user);
     }
 
     /**
@@ -33,7 +33,7 @@ class NoteControllerTest extends TestCase
      */
     public function index_returns_all_user_notes()
     {
-        $response = $this->getJson("/api/users/{$this->user->id}/notes");
+        $response = $this->getJson("/api/notes");
 
         $response->assertStatus(200);
         $response->assertJsonStructure(['notes']);
