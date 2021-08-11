@@ -62,4 +62,18 @@ class NoteControllerTest extends TestCase
             'note' => $noteBody,
         ]);
     }
+
+    /**
+     * @test
+     * @see \App\Http\Controllers\API\V1\NoteController
+     */
+    public function show_returns_requested_note()
+    {
+        $noteId = Note::first()->id;
+
+        $response = $this->getJson("/api/notes/{$noteId}");
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['note']);
+    }
 }

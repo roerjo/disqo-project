@@ -7,6 +7,7 @@ use App\Http\Requests\API\V1\StoreNoteRequest;
 use App\Models\Note;
 use App\Services\NoteService;
 use Illuminate\Http\{JsonResponse, Request};
+use Nette\Utils\Json;
 
 class NoteController extends Controller
 {
@@ -58,11 +59,13 @@ class NoteController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Note $note)
+    public function show(Note $note): JsonResponse
     {
-        //
+        $userNote = request()->user()->notes()->findOrFail($note->id);
+
+        return response()->json(['note' => $userNote]);
     }
 
     /**
