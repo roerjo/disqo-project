@@ -2,9 +2,9 @@
 A basic RESTful JSON API.
 
 ## Setup
-I used Laravel Sails for local development and assumes that Docker is setup on the host machine.
+I used Laravel Sails for local development and this guide assumes that Docker is setup on the host machine.
 
-After cloning the project and `cd`'ing into the project, run the following to spin up the enviornment:
+After cloning the project and `cd`'ing into the project directory, run the following to spin up the enviornment:
 ```bash
 ./vendor/bin/sails up
 ```
