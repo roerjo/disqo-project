@@ -50,6 +50,13 @@ class NoteService extends ParentService
         return $this;
     }
 
+    /**
+     * Update a note.
+     *
+     * @param  \App\Models\Note  $note
+     * @param  array  $noteAttributes
+     * @return self
+     */
     public function updateNote(Note $note, array $noteAttributes): self
     {
         try {
@@ -65,6 +72,12 @@ class NoteService extends ParentService
         return $this;
     }
 
+    /**
+     * Delete a note.
+     *
+     * @param  \App\Models\Note  $note
+     * @return self
+     */
     public function deleteNote(Note $note): self
     {
         try {
