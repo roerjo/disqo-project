@@ -22,13 +22,6 @@ class RegisterController extends Controller
     ): JsonResponse {
         $result = $userService->registerUser($request->validated());
 
-        if ($result->hasError()) {
-            return response()->json(
-                ['error' => $result->getError()],
-                400
-            );
-        }
-
-        return response()->json($result->getSuccess(), 201);
+        return $this->buildResponse(201, $result);
     }
 }

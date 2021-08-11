@@ -4,7 +4,7 @@ namespace App\Http\Requests\API\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreNoteRequest.php extends FormRequest
+class StoreNoteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreNoteRequest.php extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreNoteRequest.php extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required', 'string', 'max:50'],
+            'note' => ['string', 'nullable', 'max:1000'],
         ];
     }
 }

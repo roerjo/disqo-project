@@ -33,9 +33,33 @@ class NoteControllerTest extends TestCase
      */
     public function index_returns_all_user_notes()
     {
-        $response = $this->getJson("/api/notes");
+        $response = $this->getJson('/api/notes');
 
         $response->assertStatus(200);
         $response->assertJsonStructure(['notes']);
+    }
+
+    /**
+     * @test
+     * @see \App\Http\Controllers\API\V1\NoteController
+     */
+    public function store_creates_a_new_note()
+    {
+        $title = $this->faker->words(3, true);
+        $noteBody = $this->faker->paragraph();
+
+        $response = $this->postJson('/api/notes', [
+            'title' => $title,
+            'note' => $noteBody,
+        ]);
+
+        $response->assertStatus(201);
+        $response->assertJsonStructure(['note']);
+
+        $this->assertDatabaseHas('notes', [
+            'user_id' => $this->user->id,
+            'title' => $title,
+            'note' => $noteBody,
+        ]);
     }
 }

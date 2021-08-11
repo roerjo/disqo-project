@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Note;
-use App\Models\User;
+use App\Models\{Note, User};
 use Exception;
 
 class NoteService extends ParentService
@@ -22,6 +21,30 @@ class NoteService extends ParentService
             ]);
         } catch (Exception $e) {
             $this->setError('Error while retrieving user notes', $e);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Create a new user note.
+     *
+     * @param  \App\Models\User  $user
+     * @param  array  $noteAttributes
+     * @return self
+     */
+    public function createNote(User $user, array $noteAttributes): self
+    {
+        try {
+            $note = Note::create(
+                array_merge($noteAttributes, ['user_id' => $user->id])
+            );
+
+            $this->setSuccess([
+                'note' => $note,
+            ]);
+        } catch (Exception $e) {
+            $this->setError('Error while creating note', $e);
         }
 
         return $this;

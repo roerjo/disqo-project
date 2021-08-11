@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\V1\StoreNoteRequest;
 use App\Models\Note;
 use App\Services\NoteService;
 use Illuminate\Http\{JsonResponse, Request};
@@ -34,25 +35,23 @@ class NoteController extends Controller
     {
         $result = $this->noteService->getNotes(request()->user());
 
-        if ($result->hasError()) {
-            return response()->json(
-                ['error' => $result->getError()],
-                400
-            );
-        }
-
-        return response()->json($result->getSuccess(), 200);
+        return $this->buildResponse(200, $result);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\API\V1\StoreNoteRequest  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreNoteRequest $request): JsonResponse
     {
-        //
+        $result = $this->noteService->createNote(
+            request()->user(), 
+            $request->validated()
+        );
+
+        return $this->buildResponse(201, $result);
     }
 
     /**
