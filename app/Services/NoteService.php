@@ -63,6 +63,18 @@ class NoteService extends ParentService
         }
 
         return $this;
+    }
 
+    public function deleteNote(Note $note): self
+    {
+        try {
+            $note->delete();
+
+            $this->setSuccess([]);
+        } catch (Exception $e) {
+            $this->setError('Error while deleting note', $e);
+        }
+
+        return $this;
     }
 }

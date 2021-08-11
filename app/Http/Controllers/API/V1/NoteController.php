@@ -94,6 +94,10 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+        $userNote = request()->user()->notes()->findOrFail($note->id);
+
+        $result = $this->noteService->deleteNote($userNote);
+
+        return $this->buildResponse(204, $result);
     }
 }

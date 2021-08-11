@@ -98,4 +98,21 @@ class NoteControllerTest extends TestCase
             'note' => $note->note,
         ]);
     }
+
+    /**
+     * @test
+     * @see \App\Http\Controllers\API\V1\NoteController
+     */
+    public function deleting_note_is_successful()
+    {
+        $note = Note::first();
+
+        $response = $this->deleteJson("/api/notes/{$note->id}");
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('notes', [
+            'id' => $note->id,
+        ]);
+    }
 }
