@@ -76,4 +76,26 @@ class NoteControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['note']);
     }
+
+    /**
+     * @test
+     * @see \App\Http\Controllers\API\V1\NoteController
+     */
+    public function updating_note_is_successful()
+    {
+        $note = Note::first();
+
+        $response = $this->putJson("/api/notes/{$note->id}", [
+            'title' => 'Wacky new title!',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['note']);
+
+        $this->assertDatabaseHas('notes', [
+            'user_id' => $this->user->id,
+            'title' => 'Wacky new title!',
+            'note' => $note->note,
+        ]);
+    }
 }

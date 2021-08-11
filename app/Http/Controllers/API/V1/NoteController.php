@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\V1\StoreNoteRequest;
+use App\Http\Requests\API\V1\{StoreNoteRequest, UpdateNoteRequest};
 use App\Models\Note;
 use App\Services\NoteService;
 use Illuminate\Http\{JsonResponse, Request};
-use Nette\Utils\Json;
 
 class NoteController extends Controller
 {
@@ -71,13 +70,20 @@ class NoteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\API\V1\UpdateNoteRequest  $request
      * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Note $note)
+    public function update(UpdateNoteRequest $request, Note $note): JsonResponse
     {
-        //
+        $userNote = request()->user()->notes()->findOrFail($note->id);
+
+        $result = $this->noteService->updateNote(
+            $userNote, 
+            $request->validated()
+        );
+
+        return $this->buildResponse(200, $result);
     }
 
     /**

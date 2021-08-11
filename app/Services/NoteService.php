@@ -49,4 +49,20 @@ class NoteService extends ParentService
 
         return $this;
     }
+
+    public function updateNote(Note $note, array $noteAttributes): self
+    {
+        try {
+            $note->update($noteAttributes);
+
+            $this->setSuccess([
+                'note' => $note->fresh(),
+            ]);
+        } catch (Exception $e) {
+            $this->setError('Error while updating note', $e);
+        }
+
+        return $this;
+
+    }
 }
